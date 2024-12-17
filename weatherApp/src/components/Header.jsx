@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Header = () => {
   return (
     <header className="bg-blue-500 text-white">
@@ -9,25 +11,25 @@ const Header = () => {
         <nav>
           <ul className="flex space-x-6">
             <li>
-              <a href="/" className="hover:text-yellow-300 transition">
+              <Link to="/" className="hover:text-yellow-300 transition">
                 Dashboard
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/historical"
+              <Link
+                to="/historical"
                 className="hover:text-yellow-300 transition"
               >
                 Historical Weather
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/add-location"
+              <Link
+                to="/add-location"
                 className="hover:text-yellow-300 transition"
               >
                 Add Location
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

@@ -9,3 +9,7 @@
 .h1Class {
   @apply font-bold text-4xl;
 }
+
+.navbarLinks {
+  @apply hover:text-yellow-300 transition;
+}
