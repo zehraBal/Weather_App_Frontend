@@ -1,4 +1,29 @@
-const FavoriteLocations = ({ favorites }) => {
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+const FavoriteLocations = () => {
+  const [favorites, setFavorites] = useState([]);
+  useEffect(() => {
+    fetchFavorites();
+  }, []);
+
+  const fetchFavorites = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/favorites");
+      setFavorites(response.data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+  const handleRemoveFavorite = async (city) => {
+    try {
+      await axios.delete(`http://localhost:8080/favorites/${city}`);
+      setFavorites(favorites.filter((fav) => fav.city !== city));
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   if (!favorites || favorites.length === 0) {
     return (
       <div className="container mx-auto mt-8 text-center text-gray-600">
@@ -22,12 +47,12 @@ const FavoriteLocations = ({ favorites }) => {
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
               {location.city}
             </h3>
-
-            <p className="text-lg text-blue-500 mb-1">
-              {location.temperature}°C
-            </p>
-
-            <p className="text-gray-600 capitalize">{location.description}</p>
+            <button
+              onClick={() => handleRemoveFavorite(location.city)}
+              className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+            >
+              Remove
+            </button>
           </div>
         ))}
       </div>
