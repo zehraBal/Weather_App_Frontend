@@ -1,15 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const FavoriteLocations = () => {
+const FavoriteLocations = ({ onSelectCity }) => {
   const [favorites, setFavorites] = useState([]);
   useEffect(() => {
     fetchFavorites();
-  }, []);
+  }, [favorites]);
 
   const fetchFavorites = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/favorites");
+      const response = await axios.get(
+        "http://localhost:8080/weather/favorites"
+      );
       setFavorites(response.data);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -17,7 +19,7 @@ const FavoriteLocations = () => {
   };
   const handleRemoveFavorite = async (city) => {
     try {
-      await axios.delete(`http://localhost:8080/favorites/${city}`);
+      await axios.delete(`http://localhost:8080/weather/favorites/${city}`);
       setFavorites(favorites.filter((fav) => fav.city !== city));
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -42,7 +44,8 @@ const FavoriteLocations = () => {
         {favorites.map((location, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow"
+            onClick={() => onSelectCity(location.city)}
+            className="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow transform hover:scale-105 cursor-pointer"
           >
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
               {location.city}

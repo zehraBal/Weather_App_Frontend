@@ -5,6 +5,7 @@ import CurrentWeatherCard from "./CurrentWeatherCard";
 import FavoriteLocations from "./FavoriteLocations";
 
 const MainDashboard = () => {
+  const [selectedCity, setSelectedCity] = useState(null);
   const [currentWeather, setCurrentWeather] = useState(null);
   const handleSearch = async (city) => {
     try {
@@ -31,7 +32,7 @@ const MainDashboard = () => {
     <div>
       <SearchBar onSearch={handleSearch} />
       <CurrentWeatherCard weather={currentWeather} />
-      <FavoriteLocations />
+      <FavoriteLocations onSelectCity={handleSearch} />
     </div>
   );
 };

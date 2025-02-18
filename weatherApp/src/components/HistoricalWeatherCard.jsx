@@ -16,7 +16,7 @@ const HistoricalWeatherCard = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:8080/weather/historical"
+        "http://localhost:8080/weather/historical/all"
       );
       setWeatherHistory(response.data);
     } catch (error) {

@@ -10,7 +10,16 @@ const CurrentWeatherCard = ({ weather }) => {
   }
   const onSaveFavorite = async () => {
     try {
-      await axios.post("http://localhost:8080/favorites", weather.city);
+      await axios.post(
+        "http://localhost:8080/weather/favorites",
+        { city: weather.city },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
       alert(`${weather.city} saved to favorites!`);
     } catch (error) {
       console.error("Error saving favorite:", error);
