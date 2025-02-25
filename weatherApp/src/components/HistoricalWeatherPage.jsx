@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const HistoricalWeatherCard = () => {
+const HistoricalWeatherPage = () => {
   const [city, setCity] = useState(""); // Arama yapılacak şehir
   const [weatherHistory, setWeatherHistory] = useState([]); // Geçmiş hava durumu
   const [loading, setLoading] = useState(false);

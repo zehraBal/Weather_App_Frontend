@@ -1,6 +1,8 @@
 import axios from "axios";
+import { useAuth } from "../AuthContext";
 
 const CurrentWeatherCard = ({ weather }) => {
+  const { token, isAuthenticated } = useAuth();
   if (!weather) {
     return (
       <div className="text-center mt-8 text-gray-600">
@@ -9,6 +11,10 @@ const CurrentWeatherCard = ({ weather }) => {
     );
   }
   const onSaveFavorite = async () => {
+    if (!isAuthenticated) {
+      alert("Favori eklemek için giriş yapmalısınız!");
+      return;
+    }
     try {
       await axios.post(
         "http://localhost:8080/weather/favorites",
@@ -17,6 +23,7 @@ const CurrentWeatherCard = ({ weather }) => {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

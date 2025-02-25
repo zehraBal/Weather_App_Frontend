@@ -1,22 +1,27 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAuth } from "../AuthContext";
 
 const HistoricalWeatherCard = () => {
-  const [city, setCity] = useState(""); // Arama yapılacak şehir
-  const [weatherHistory, setWeatherHistory] = useState([]); // Geçmiş hava durumu
+  const { token, isAuthenticated } = useAuth();
+  const [city, setCity] = useState("");
+  const [weatherHistory, setWeatherHistory] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Sayfa ilk açıldığında tüm geçmiş hava durumu verisini getir
   useEffect(() => {
-    fetchAllHistoricalWeather();
-  }, []);
+    if (isAuthenticated) {
+      fetchAllHistoricalWeather();
+    }
+  }, [isAuthenticated]);
 
   // Tüm geçmiş hava durumu verisini getir
   const fetchAllHistoricalWeather = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:8080/weather/historical/all"
+        "http://localhost:8080/weather/historical",
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setWeatherHistory(response.data);
     } catch (error) {
@@ -36,7 +41,7 @@ const HistoricalWeatherCard = () => {
     try {
       const response = await axios.get(
         `http://localhost:8080/weather/historical/searchFor`,
-        { params: { city } }
+        { params: { city }, headers: { Authorization: `Bearer ${token}` } }
       );
       setWeatherHistory(response.data);
     } catch (error) {
@@ -45,7 +50,13 @@ const HistoricalWeatherCard = () => {
       setLoading(false);
     }
   };
-
+  if (!isAuthenticated) {
+    return (
+      <p className="text-center mt-8 text-red-500">
+        Geçmiş hava durumu verilerini görmek için giriş yapmalısınız!
+      </p>
+    );
+  }
   return (
     <div className="container mx-auto mt-8 px-4">
       <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
