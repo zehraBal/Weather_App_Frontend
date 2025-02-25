@@ -2,25 +2,24 @@ import Header from "./components/Header";
 import "./App.css";
 import { Route, Router, Routes } from "react-router-dom";
 import MainDashboard from "./components/MainDashboard";
-import HistoricalWeatherPage from "./components/HistoricalWeatherPage";
-import AddLocationPage from "./components/AddLocationPage";
+
+import HistoricalWeatherCard from "./components/HistoricalWeatherCard";
+import FavoriteLocations from "./components/FavoriteLocations";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import { AuthProvider } from "./AuthContext";
 function App() {
   return (
-    <>
-      <div className="bg-gray-100 min-h-screen">
-        {/* Header */}
-        <Header />
-
-        {/* Page Content */}
-        <main>
-          <Routes>
-            <Route path="/" element={<MainDashboard />} />
-            <Route path="/historical" element={<HistoricalWeatherPage />} />
-            <Route path="/add-location" element={<AddLocationPage />} />
-          </Routes>
-        </main>
-      </div>
-    </>
+    <AuthProvider>
+      <Header />
+      <Routes>
+        <Route path="/" element={<MainDashboard />} />
+        <Route path="/historical" element={<HistoricalWeatherCard />} />
+        <Route path="/favorites" element={<FavoriteLocations />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 
