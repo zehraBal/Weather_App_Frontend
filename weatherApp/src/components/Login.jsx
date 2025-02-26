@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 const Login = () => {
   const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = async () => {
+  const navigate = useNavigate();
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/login", {
+      const response = await axios.post("http://localhost:8080/weather/login", {
         username,
         password,
       });
-      login(response.data.token);
+      console.log(response);
+      login(response.data);
+      navigate("/");
       alert("Başarıyla giriş yapıldı!");
     } catch (error) {
       alert("Giriş başarısız!");

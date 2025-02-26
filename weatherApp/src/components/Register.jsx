@@ -18,7 +18,7 @@ const Register = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/register", {
+      await axios.post("http://localhost:8080/weather/register", {
         username,
         password,
       });

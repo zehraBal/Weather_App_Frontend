@@ -3,15 +3,23 @@ import { useState } from "react";
 import SearchBar from "./SearchBar";
 import CurrentWeatherCard from "./CurrentWeatherCard";
 import FavoriteLocations from "./FavoriteLocations";
+import { useAuth } from "../AuthContext";
 
 const MainDashboard = () => {
+  const { token } = useAuth();
   const [selectedCity, setSelectedCity] = useState(null);
   const [currentWeather, setCurrentWeather] = useState(null);
   const handleSearch = async (city) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/weather/current-weather?city=${city}`
-      );
+      const response = token
+        ? await axios.get(
+            `http://localhost:8080/weather/current?city=${city}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
+        : await axios.get(`http://localhost:8080/weather/current?city=${city}`);
+
       console.log(response);
       const weatherData = {
         city: response.data.city,

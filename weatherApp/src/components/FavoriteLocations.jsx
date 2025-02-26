@@ -6,19 +6,20 @@ const FavoriteLocations = ({ onSelectCity }) => {
   const { token, isAuthenticated } = useAuth();
   const [favorites, setFavorites] = useState([]);
 
-  // Sayfa yüklendiğinde favori lokasyonları getir
   useEffect(() => {
-    if (isAuthenticated) {
+    if (token) {
       fetchFavorites();
     }
-  }, [isAuthenticated]);
+  }, [token]);
 
-  // Favori lokasyonları backend'den getir
   const fetchFavorites = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/favorites", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "http://localhost:8080/weather/favorites",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setFavorites(response.data);
     } catch (error) {
       console.error("Error fetching favorites:", error);

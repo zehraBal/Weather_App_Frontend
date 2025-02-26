@@ -36,7 +36,7 @@ const HistoricalWeatherPage = () => {
     try {
       const response = await axios.get(
         `http://localhost:8080/weather/historical/searchFor`,
-        { params: { city } }
+        { params: { city }, headers: { Authorization: `Bearer ${token}` } }
       );
       setWeatherHistory(response.data);
     } catch (error) {
@@ -108,4 +108,4 @@ const HistoricalWeatherPage = () => {
   );
 };
 
-export default HistoricalWeatherCard;
+export default HistoricalWeatherPage;
